@@ -9,22 +9,15 @@ import (
 )
 
 type config struct {
-	port int
-	env  string
-	db   struct {
-		dsn string
-	}
+	port string
+	host  string
+	// db   struct {
+	// 	dsn string
+	// }
 	stripe struct {
 		secret string
 		key    string
 	}
-	smtp struct {
-		host     string
-		port     int
-		username string
-		password string
-	}
-	secretkey string
 }
 
 type application struct {
@@ -36,14 +29,28 @@ type application struct {
 func main() {
 	var cfg config
 
+	cfg.port = os.Getenv("PORT")
 	cfg.stripe.key = os.Getenv("STRIPE_KEY")
 	cfg.stripe.secret = os.Getenv("STRIPE_SECRET")
 	
+	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+
+	app := &application{
+		config: cfg,
+		infoLog: infoLog,
+		errorLog: errorLog,
+	}
+
+	err := app.serve()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func (app *application) serve() error {
 	srv := &http.Server{
-		Addr:              fmt.Sprintf(":%d", app.config.port),
+		Addr:              fmt.Sprintf(":%s", app.config.port),
 		Handler:           app.routes(),
 		IdleTimeout:       30 * time.Second,
 		ReadTimeout:       10 * time.Second,
@@ -51,7 +58,7 @@ func (app *application) serve() error {
 		WriteTimeout:      5 * time.Second,
 	}
 
-	app.infoLog.Printf("Starting Back end server in %s mode on port %d\n", app.config.env, app.config.port)
+	app.infoLog.Printf("Starting Back end server %s port %s\n", app.config.host, app.config.port)
 
 	return srv.ListenAndServe()
 }
