@@ -9,15 +9,16 @@ export const CheckoutForm = () => {
   // //クレカの取り扱い
   // const token = await Stripe.createToken
 
-  const handleFormSubmit = async (event: SubmitEvent) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault()
-    const response = await axios.post('/api/pay', {
-      body: JSON.stringify({ amount: event.target.value }),
-    })
+    const { data } = await axios.post(
+      'http://localhost:4000/api/payment-intent',
+      {
+        amount: '1000',
+      }
+    )
 
-    const data = response.data
     const clientSecret = data.client_secret
-
     const card = elements.getElement(CardElement)
 
     const result = await stripe.confirmCardPayment(clientSecret, {
@@ -30,12 +31,10 @@ export const CheckoutForm = () => {
     })
 
     if (result.error) {
-      // card declined, or something went wrong with the card
       console.log(result.error)
     } else if (result.paymentIntent) {
       if (result.paymentIntent.status === 'succeeded') {
         console.log('success')
-        // we have charged the card
       }
     }
   }
