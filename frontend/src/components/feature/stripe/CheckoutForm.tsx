@@ -9,9 +9,10 @@ export const CheckoutForm = () => {
   // //クレカの取り扱い
   // const token = await Stripe.createToken
 
-  const handleFormSubmit = async (event) => {
+  const handleFormSubmit = async (event: SubmitEvent) => {
+    event.preventDefault()
     const response = await axios.post('/api/pay', {
-      body: JSON.stringify({ amount: event.target.amount.value }),
+      body: JSON.stringify({ amount: event.target.value }),
     })
 
     const data = response.data
