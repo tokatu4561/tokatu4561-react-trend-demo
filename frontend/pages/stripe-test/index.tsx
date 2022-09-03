@@ -1,27 +1,21 @@
 import React from 'react'
 import { MainLayout } from '../../src/components/Layout/MainLayout'
-import { Elements, useElements } from '@stripe/react-stripe-js'
+import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
-import { PaymentElement } from '@stripe/react-stripe-js'
+import { CheckoutForm } from '../../src/components/feature/stripe/CheckoutForm'
 
-const stripePromise = loadStripe(process.env.public_stripe_key)
+const stripePromise = loadStripe(`${process.env.PUBLIC_STRIPE_KEY}`)
 
-const index = () => {
-  const elements = useElements()
-
-  // //クレカの取り扱い
-  // const token = await Stripe.createToken
-
+const StripeTest = () => {
   return (
-    <Elements stripe={stripePromise}>
-      <MainLayout title="stripe">
-        <form>
-          <PaymentElement />
-          <button>Submit</button>
-        </form>
-      </MainLayout>
-    </Elements>
+    <MainLayout title="stripe">
+      <Elements stripe={stripePromise}>
+        <div className="h-screen flex justify-center items-center">
+          <CheckoutForm />
+        </div>
+      </Elements>
+    </MainLayout>
   )
 }
 
-export default index
+export default StripeTest
