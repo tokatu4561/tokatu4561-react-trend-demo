@@ -69,14 +69,12 @@ const CARD_OPTIONS = {
   hidePostalCode: true,
   style: {
     base: {
-      iconColor: '#c4f0ff',
-      color: '#fff',
+      color: '#5c5c5c',
       fontWeight: 500,
-      fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
       fontSize: '16px',
       fontSmoothing: 'antialiased',
       ':-webkit-autofill': { color: '#fce883' },
-      '::placeholder': { color: '#87bbfd' },
+      '::placeholder': { color: '#5c5c5c' },
     },
     invalid: {
       iconColor: '#ffc7ee',
