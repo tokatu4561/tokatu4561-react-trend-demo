@@ -1,6 +1,6 @@
 import React from 'react'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
-import { InputFiled } from '../../components/Form/InputFiled'
+import { InputFiled } from '@/components/Form/InputFiled'
 import { axios } from '@/lib/axios'
 
 export const CheckoutForm = () => {
@@ -56,11 +56,31 @@ export const CheckoutForm = () => {
         />
       </div>
       <div className="mb-4">
-        <CardElement />
+        <CardElement options={CARD_OPTIONS} />
       </div>
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
         決済する
       </button>
     </form>
   )
+}
+
+const CARD_OPTIONS = {
+  hidePostalCode: true,
+  style: {
+    base: {
+      iconColor: '#c4f0ff',
+      color: '#fff',
+      fontWeight: 500,
+      fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+      fontSize: '16px',
+      fontSmoothing: 'antialiased',
+      ':-webkit-autofill': { color: '#fce883' },
+      '::placeholder': { color: '#87bbfd' },
+    },
+    invalid: {
+      iconColor: '#ffc7ee',
+      color: '#ffc7ee',
+    },
+  },
 }
