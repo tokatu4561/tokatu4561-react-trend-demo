@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import * as React from 'react'
 
 type Props = {
@@ -31,12 +32,11 @@ const SideBar = () => {
         <ul className="space-y-2">
           {SideBarNavigationItem.map((navItem) => (
             <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-base font-normal text-white rounded-lg hover:bg-gray-100"
-              >
-                <span className="ml-3">{navItem.name}</span>
-              </a>
+              <Link href={navItem.href}>
+                <a className="flex items-center p-2 text-base font-normal text-white rounded-lg hover:bg-gray-100">
+                  <span className="ml-3">{navItem.name}</span>
+                </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -47,11 +47,13 @@ const SideBar = () => {
 
 type SideBarNavigationItemType = {
   name: string
+  href: string
 }
 
 const SideBarNavigationItem: SideBarNavigationItemType[] = [
-  { name: 'Stripe' },
+  { name: 'Stripe', href: '/stripe-test' },
   {
     name: 'Home',
+    href: '/',
   },
 ]
