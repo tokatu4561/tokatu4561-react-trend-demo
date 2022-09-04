@@ -1,7 +1,7 @@
 import React from 'react'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
-import axios from 'axios'
 import { InputFiled } from '../../components/Form/InputFiled'
+import { axios } from '@/lib/axios'
 
 export const CheckoutForm = () => {
   const stripe = useStripe()
@@ -12,12 +12,9 @@ export const CheckoutForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault()
-    const { data } = await axios.post(
-      'http://localhost:4000/api/payment-intent',
-      {
-        amount: '1000',
-      }
-    )
+    const { data } = await axios.post('/api/payment-intent', {
+      amount: '1000',
+    })
 
     const clientSecret = data.client_secret
     const card = elements.getElement(CardElement)
