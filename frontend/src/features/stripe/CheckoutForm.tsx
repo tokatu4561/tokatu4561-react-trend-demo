@@ -1,6 +1,7 @@
 import React from 'react'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import axios from 'axios'
+import { InputFiled } from '../../components/Form/InputFiled'
 
 export const CheckoutForm = () => {
   const stripe = useStripe()
@@ -42,16 +43,19 @@ export const CheckoutForm = () => {
   return (
     <form onSubmit={handleFormSubmit}>
       <div className="mb-4">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="username"
-        >
-          Username
-        </label>
-        <input
-          className="shadow border rounded w-full py-2 px-3 text-gray-700"
+        <InputFiled
+          inputId="username"
+          label="Username"
           type="text"
           placeholder="Username"
+        />
+      </div>
+      <div className="mb-4">
+        <InputFiled
+          inputId="amount"
+          label="Amount"
+          type="text"
+          placeholder="amount"
         />
       </div>
       <div className="mb-4">
