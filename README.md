@@ -1,6 +1,6 @@
 ## Getting Started
 
-react のトレンドを試してみる
+react のトレンド等を試してみる
 個人学習用リポジトリ
 
 ```bash
