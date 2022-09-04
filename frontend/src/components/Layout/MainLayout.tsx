@@ -51,9 +51,13 @@ type SideBarNavigationItemType = {
 }
 
 const SideBarNavigationItem: SideBarNavigationItemType[] = [
-  { name: 'Stripe', href: '/stripe-test' },
   {
     name: 'Home',
     href: '/',
+  },
+  { name: 'Stripe', href: '/stripe-test' },
+  {
+    name: 'React Hook Form',
+    href: '/form-test/react-hook-form',
   },
 ]
