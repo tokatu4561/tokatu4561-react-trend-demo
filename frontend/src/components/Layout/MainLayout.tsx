@@ -60,4 +60,12 @@ const SideBarNavigationItem: SideBarNavigationItemType[] = [
     name: 'React Hook Form',
     href: '/form-test/react-hook-form',
   },
+  {
+    name: 'React Hook Form Test',
+    href: '/form-test/react-hook-form/test',
+  },
+  {
+    name: 'Formik Test',
+    href: '/form-test/formik/test',
+  },
 ]
