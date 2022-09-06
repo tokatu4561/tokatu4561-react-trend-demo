@@ -31,7 +31,7 @@ const SideBar = () => {
       <div className="overflow-y-auto py-4 px-3 h-full bg-gray-900 rounded">
         <ul className="space-y-2">
           {SideBarNavigationItem.map((navItem) => (
-            <li>
+            <li key={navItem.name}>
               <Link href={navItem.href}>
                 <a className="flex items-center p-2 text-base font-normal text-white rounded-lg hover:bg-gray-100">
                   <span className="ml-3">{navItem.name}</span>
