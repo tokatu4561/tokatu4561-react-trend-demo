@@ -15,13 +15,15 @@
     "@stripe/stripe-js": "^1.35.0",
     "autoprefixer": "^10.4.8",
     "axios": "^0.27.2",
+    "formik": "^2.2.9",
     "next": "11.1.2",
     "postcss": "^8.4.16",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.34.2",
     "stripe": "^10.6.0",
-    "tailwindcss": "^3.1.8"
+    "tailwindcss": "^3.1.8",
+    "yup": "^0.32.11"
   },
   "resolutions": {
     "@types/react": "17.0.40"
