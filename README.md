@@ -9,3 +9,7 @@ npm run dev
 # or
 yarn dev
 ```
+
+## theme
+use stripe
+formik vs react-hook-form
