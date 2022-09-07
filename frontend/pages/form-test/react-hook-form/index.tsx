@@ -19,12 +19,13 @@ const FormTest = () => {
   const onSubmit = (data) => {
     console.log(data)
   }
+  const onError = (errors, e) => console.log(errors, e)
 
   return (
     <MainLayout title="react-hook-form test">
       react-hook-form test
       <div className="flex justify-center items-center h-screen w-4/6">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit, onError)}>
           <div className="mb-4">
             <InputFiled
               inputId="aaa"
@@ -34,7 +35,7 @@ const FormTest = () => {
               {...register('aaa', { required: true })}
             />
             {errors.aaa && (
-              <span className="text-red-500">This field is required</span>
+              <span className="text-red-500">入力は必須です。</span>
             )}
           </div>
           <div className="mb-4">

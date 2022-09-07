@@ -12,7 +12,9 @@ const ReactHookFormTestForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>()
+  } = useForm<Inputs>({
+    mode: 'onChange',
+  })
 
   const onSubmit = (data) => {
     console.log(data)
