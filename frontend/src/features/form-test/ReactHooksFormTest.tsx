@@ -11,19 +11,18 @@ const ReactHookFormTestForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>()
 
   const onSubmit = (data) => {
     console.log(data)
   }
-  const onError = (errors, e) => console.log(errors, e)
 
   console.log('renderd')
 
   return (
-    <form onSubmit={handleSubmit(onSubmit, onError)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      React-Hook-Form
       <div className="mb-4">
         <input
           className="p-2"

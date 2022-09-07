@@ -10,9 +10,12 @@ const initialValues = {
 }
 
 const formValidationSchema = yup.object().shape({
-  aaa: yup.string().required(),
-  bbb: yup.string().required(),
-  ccc: yup.string().email(),
+  aaa: yup.string(),
+  bbb: yup.string().required('入力は必須です'),
+  ccc: yup
+    .string()
+    .max(5, '5文字以内で入力してください')
+    .required('入力は必須です'),
 })
 
 const FormikTestForm = () => {
@@ -39,8 +42,6 @@ const FormikTestForm = () => {
           onBlur={handleBlur}
           onChange={handleChange}
           value={values.aaa}
-          // error={!!touched.email && !!errors.email}
-          // helperText={touched.email && errors.email}
         />
       </div>
       <div className="mb-4">
@@ -53,7 +54,9 @@ const FormikTestForm = () => {
           onChange={handleChange}
           value={values.bbb}
         />
-        {/* {errors.bbb && <p className="text-red-400">入力は必須です。</p>} */}
+        {touched.bbb && errors.bbb && (
+          <p className="text-red-400">{errors.bbb}</p>
+        )}
       </div>
       <div className="mb-4">
         <input
@@ -64,6 +67,9 @@ const FormikTestForm = () => {
           onBlur={handleBlur}
           onChange={handleChange}
         />
+        {touched.ccc && errors.ccc && (
+          <p className="text-red-400">{errors.ccc}</p>
+        )}
       </div>
       <button
         type="submit"
