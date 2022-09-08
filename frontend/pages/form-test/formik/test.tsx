@@ -1,7 +1,7 @@
 import React from 'react'
 import { MainLayout } from '@/components/Layout/MainLayout'
 
-import FormikTestForm from '@/features/form-test/FormikTestForm'
+import FormikTestForm from '@/features/form-test/components/FormikTestForm'
 
 const FormikTest = () => {
   return (

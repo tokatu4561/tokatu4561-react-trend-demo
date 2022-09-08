@@ -1,6 +1,6 @@
 import React from 'react'
 import { MainLayout } from '@/components/Layout/MainLayout'
-import ReactHookFormTestForm from '@/features/form-test/ReactHooksFormTest'
+import ReactHookFormTestForm from '@/features/form-test/components/ReactHooksFormTest'
 
 const FormTest = () => {
   return (
