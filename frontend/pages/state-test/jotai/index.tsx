@@ -5,22 +5,45 @@ import { TodoList } from '@/features/todo/components/TodoList'
 import { Todo } from '@/features/todo/types'
 
 import { useAtom, atom } from 'jotai'
-import React from 'react'
+import React, { useState } from 'react'
 
 const todoListAtom = atom<Todo[]>([{ title: 'aaa' }])
-const searchedTodoListAtom = atom((get) =>
-  get(todoListAtom).filter((todo) => todo.title)
-)
 
-const StripeTest = () => {
-  const [todoList, setTodoList] = useAtom(searchedTodoListAtom)
+const addTodoAtom = atom(null, (get, set, title) => {
+  const todoList = get(todoListAtom)
+  set(todoListAtom, [...todoList, { title: title } as Todo])
+})
+
+const JotaiTest = () => {
+  const [todoList, setTodoList] = useAtom(todoListAtom)
+
+  const [, addTodo] = useAtom(addTodoAtom)
+
+  const [title, setTitle] = useState('')
+
+  const onChange = (event) => {
+    setTitle(event.target.value)
+  }
+
+  const onClick = () => {
+    addTodo(title)
+  }
 
   return (
     <MainLayout title="stripe">
       <div className="flex justify-center items-center h-screen w-4/6">
         <div>
-          <CreateForm />
-          <SearchForm />
+          <label>
+            タスク名:
+            <input
+              type="text"
+              value={title}
+              onChange={onChange}
+              name="title"
+              style={{ margin: 12 }}
+            />
+          </label>
+          <button onClick={onClick}>追加</button>
           <p className="mb-4">タスク一覧</p>
           <TodoList todoList={todoList} />
         </div>
@@ -29,4 +52,4 @@ const StripeTest = () => {
   )
 }
 
-export default StripeTest
+export default JotaiTest
