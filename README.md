@@ -9,3 +9,11 @@ npm run dev
 # or
 yarn dev
 ```
+
+### 必須ライブラリ
+
+golang マイグレーションツール
+
+```bash
+brew install golang-migrate
+```
