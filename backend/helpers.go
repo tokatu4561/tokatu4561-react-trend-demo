@@ -18,3 +18,23 @@ func(app *application) readJson(w http.ResponseWriter, r *http.Request, data int
 
 	return nil
 }
+
+func (app *application) badRequest(w http.ResponseWriter, r *http.Request, err error) error {
+	var payload struct {
+		Error bool `json:"error"`
+		Message string `json:"message"`
+	}
+
+	payload.Error = true
+	payload.Message = err.Error()
+
+	out, err := json.MarshalIndent(payload, "", "\t")
+	if err != nil {
+		return err
+	}
+
+	w.Header().Set("Content-type", "application/json")
+	w.Write(out)
+
+	return nil
+}
