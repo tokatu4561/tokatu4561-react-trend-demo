@@ -62,7 +62,7 @@ func (app *application) badRequest(w http.ResponseWriter, r *http.Request, err e
 }
 
 // hash化されている password と plainTextが一致しているかを確認する
-func (app *application) PasswordMatches(password string, plainText string) (bool, error) {
+func (app *application) passwordMatches(password string, plainText string) (bool, error) {
 	err := bcrypt.CompareHashAndPassword([]byte(password), []byte(plainText))
 	if err != nil {
 		switch {

@@ -7,6 +7,8 @@ import (
 	"os"
 	"time"
 
+	"myapp/models"
+
 	"github.com/joho/godotenv"
 )
 
@@ -26,6 +28,7 @@ type application struct {
 	config config
 	infoLog *log.Logger
 	errorLog *log.Logger
+	DB *models.Models
 }
 
 func main() {

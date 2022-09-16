@@ -71,6 +71,32 @@ func (app *application) GetPaymentIntent(w http.ResponseWriter, r *http.Request)
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(out)
 	}
+}
 
-	
+func (app *application) CreateAuthnicateToken(w http.ResponseWriter, r *http.Request) {
+	var userInput struct {
+		email string `json:"email"`
+		password string `json:"password"`
+	}
+
+	err := app.readJson(w, r, &userInput)
+	if err != nil {
+		app.badRequest(w, r, err)
+		return
+	}
+
+	// Userを取得
+	user, err := app.DB.GetByEmail(userInput.email)
+	if err != nil {
+		app.badRequest(w, r, err)
+	}
+
+	// パスワード検証
+	isValidPassword, err := app.passwordMatches(user.Password, userInput.password)
+	if err != nil {
+		app.badRequest(w, r, err)
+		return
+	}
+
+	// token生成
 }
