@@ -2,7 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 func(app *application) readJson(w http.ResponseWriter, r *http.Request, data interface{}) error {
@@ -56,4 +59,20 @@ func (app *application) badRequest(w http.ResponseWriter, r *http.Request, err e
 	w.Write(out)
 
 	return nil
+}
+
+// hash化されている password と plainTextが一致しているかを確認する
+func (app *application) PasswordMatches(password string, plainText string) (bool, error) {
+	err := bcrypt.CompareHashAndPassword([]byte(password), []byte(plainText))
+	if err != nil {
+		switch {
+		case errors.Is(err, bcrypt.ErrMismatchedHashAndPassword):
+			// invalid password
+			return false, nil
+		default:
+			return false, err
+		}
+	}
+
+	return true, nil
 }
