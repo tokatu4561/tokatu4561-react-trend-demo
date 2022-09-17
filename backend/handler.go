@@ -118,15 +118,14 @@ func (app *application) CreateAuthnicateToken(w http.ResponseWriter, r *http.Req
 	// TODO:: エラーログ残す　後でやる
 	tokenString, _ := token.SignedString([]byte("SECRET_KEY"))
 
-	var response struct {
-		Error bool `json:"error"`
-		Token string `json:"token"`
+	cookie := &http.Cookie{
+		Name: "jwt",
+		Value: tokenString,
+		HttpOnly: true,
 	}
 
-	response.Error = false
-	response.Token = tokenString
-
-	app.writeJson(w, 200, response)
+	http.SetCookie(w, cookie)
+	app.writeJson(w, 200, nil)
 }
 
 func (app *application) GetAuthUser(w http.ResponseWriter, r *http.Request) {
