@@ -1,16 +1,17 @@
-version: '3'
+version: "3"
 
 services:
-  mariadb:
-    image: 'mariadb:10.6'
+  postgres:
+    image: "postgres:14.0"
     ports:
-      - "3306:3306"
+      - "5432:5432"
     restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: widgets
-      MYSQL_USER: mariadb
-      MYSQL_PASSWORD: password
-
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: practice
     volumes:
-      - ./db-data/mariadb:/var/lib/mysql
+      - ./db-data/postgres/:/var/lib/postgresql/data/
