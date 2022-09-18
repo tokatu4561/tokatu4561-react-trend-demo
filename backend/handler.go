@@ -81,37 +81,40 @@ func (app *application) GetPaymentIntent(w http.ResponseWriter, r *http.Request)
 
 func (app *application) CreateAuthnicateToken(w http.ResponseWriter, r *http.Request) {
 	var userInput struct {
-		email string `json:"email"`
-		password string `json:"password"`
+		Email string `json:"email"`
+		Password string `json:"password"`
 	}
 
 	err := app.readJson(w, r, &userInput)
 	if err != nil {
+		app.errorLog.Println(err)
 		app.badRequest(w, r, err)
 		return
 	}
 
 	// Userを取得
-	user, err := app.DB.GetByEmail(userInput.email)
+	user, err := app.Models.User.GetByEmail(userInput.Email)
 	if err != nil {
+		app.errorLog.Println(err)
 		app.badRequest(w, r, err)
 		return
 	}
 
 	// パスワード検証
-	isValidPassword, err := app.passwordMatches(user.Password, userInput.password)
+	validPassword, err := app.passwordMatches(user.Password, userInput.Password)
 	if err != nil {
+		app.errorLog.Println(err)
 		app.badRequest(w, r, err)
 		return
 	}
 
-	if (isValidPassword) {
+	if (!validPassword) {
 		app.badRequest(w, r, errors.New("パスワードが一致しません"))
 		return
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-			"user_id": user.ID,
+			"user_id": user.UserID,
 			"exp": time.Now().Add(time.Hour * 24).Unix(),
 			})
 	
@@ -124,8 +127,13 @@ func (app *application) CreateAuthnicateToken(w http.ResponseWriter, r *http.Req
 		HttpOnly: true,
 	}
 
+	var resp struct {
+		Error   bool   `json:"error"`
+	}
+	resp.Error = false
+
 	http.SetCookie(w, cookie)
-	app.writeJson(w, 200, nil)
+	app.writeJson(w, 200, resp)
 }
 
 func (app *application) GetAuthUser(w http.ResponseWriter, r *http.Request) {

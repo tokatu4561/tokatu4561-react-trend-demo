@@ -1,15 +1,16 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
+	"myapp/models"
 	"net/http"
 	"os"
 	"time"
 
-	"myapp/models"
-
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 )
 
 type config struct {
@@ -28,7 +29,8 @@ type application struct {
 	config config
 	infoLog *log.Logger
 	errorLog *log.Logger
-	DB *models.Models
+	DB *sql.DB
+	Models models.Models
 }
 
 func main() {
@@ -43,13 +45,19 @@ func main() {
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
+	db, err := sql.Open("postgres", "user=postgres password=password host=localhost port=5432 dbname=practice sslmode=disable")
+    if err != nil {
+        errorLog.Fatalln(err)
+    }
+    defer db.Close()
+
 	app := &application{
 		config: cfg,
 		infoLog: infoLog,
 		errorLog: errorLog,
 	}
 
-	err := app.serve()
+	err = app.serve()
 	if err != nil {
 		log.Fatal(err)
 	}
