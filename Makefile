@@ -12,5 +12,10 @@ migrate:
 	@echo "migration db data..."
 	@migrate -database ${DATABASE_URL} -path backend/database/migrations/ up
 
+seed:
+	@echo "seeding db data..."
+	@cd backend
+	@go run database/seeder/seed.go
+
 down-all:
 	@docker-compose down --rmi all --volumes --remove-orphans
