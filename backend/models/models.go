@@ -52,3 +52,26 @@ func (u *User) GetByEmail(email string) (*User, error) {
 
 	return &user, nil
 }
+
+
+// GetOne returns one user by id
+func (u *User) GetById(id int) (*User, error) {
+	db, _ := sql.Open("postgres", "user=postgres password=password host=localhost port=5432 dbname=practice sslmode=disable")
+	query := `select user_id, username, email, password from users where user_id = $1`
+
+	var user User
+	row := db.QueryRow(query, id)
+	
+	err := row.Scan(
+		&user.UserID,
+		&user.UserName,
+		&user.Email,
+		&user.Password,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}

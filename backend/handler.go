@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"myapp/internal/cards"
+	"myapp/models"
 	"net/http"
 	"strconv"
 	"strings"
@@ -137,7 +138,10 @@ func (app *application) CreateAuthnicateToken(w http.ResponseWriter, r *http.Req
 }
 
 func (app *application) GetAuthUser(w http.ResponseWriter, r *http.Request) {
-	payloadToken, err := app.getAuthenticateTokenFromHeader(r)
+	cookie, err := r.Cookie("jwt")
+
+	// payloadToken, err := app.getAuthenticateTokenFromHeader(r)
+	payloadToken := cookie.Value
 	if err != nil {
 		app.badRequest(w, r, err)
 	}
@@ -149,6 +153,7 @@ func (app *application) GetAuthUser(w http.ResponseWriter, r *http.Request) {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
 
+		// TODO:WARNING: シークレットキーはenvで管理したい
 		return []byte("SECRET_KEY"), nil
 	})
 
@@ -156,11 +161,19 @@ func (app *application) GetAuthUser(w http.ResponseWriter, r *http.Request) {
 	if ok && token.Valid {
 		var response struct {
 			Error bool `json:"error"`
-			UserId float64 `json:"user_id"`
+			User models.User `json:"user_id"`
+		}
+
+		userId := claims["user_id"].(float64)
+		user, err := app.Models.User.GetById(int(userId))
+		if err != nil {
+			app.errorLog.Fatalln(err)
+			app.badRequest(w, r, err)
+			return
 		}
 	
 		response.Error = false
-		response.UserId = claims["user_id"].(float64)
+		response.User = *user
 	
 		app.writeJson(w, 200, response)
 	} else {

@@ -5,6 +5,7 @@ const API_URL = process.env.APP_API_URL
 
 const handler: NextApiHandler = async (req, res) => {
   const { jwt } = req.cookies
+  console.log(req.cookies)
 
   if (!jwt) {
     res.status(401).end()

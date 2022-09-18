@@ -30,6 +30,11 @@ const LoginPage = () => {
   }
   const onError = (errors, e) => console.log(errors, e)
 
+  const onClickGetUser = () => {
+    const response = axios.get('/auth/user')
+    console.log(response)
+  }
+
   return (
     <Layout title="login">
       <div className="flex justify-center items-center h-screen">
@@ -63,6 +68,10 @@ const LoginPage = () => {
           </div>
           <Button type="submit">送信</Button>
         </form>
+
+        <div className="ml-4">
+          <Button onClick={onClickGetUser}>ユーザー取得</Button>
+        </div>
       </div>
     </Layout>
   )
