@@ -18,7 +18,9 @@ func (app *application) routes() http.Handler {
 		MaxAge:           300,
 	}))
 
-	mux.Post("/api/payment-intent", app.GetPaymentIntent)
+	mux.Post("/payment-intent", app.GetPaymentIntent)
+	mux.Post("/auth/login", app.CreateAuthnicateToken)
+	mux.Get("/auth/user", app.GetAuthUser)
 
 	return mux
 }

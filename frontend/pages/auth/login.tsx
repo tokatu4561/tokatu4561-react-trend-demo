@@ -4,6 +4,8 @@ import { InputFiled } from '@/components/Form/InputFiled'
 import { useForm } from 'react-hook-form'
 import { Layout } from '@/features/auth/components/Layout'
 import { Button } from '@/components/Button'
+import { fetchJson } from '@/lib/api'
+import { axios } from '@/lib/axios'
 
 type Inputs = {
   email: string
@@ -20,6 +22,11 @@ const LoginPage = () => {
 
   const onSubmit = (data) => {
     console.log(data)
+    const response = axios.post('/auth/login', {
+      email: data.email,
+      password: data.password,
+    })
+    console.log(response)
   }
   const onError = (errors, e) => console.log(errors, e)
 
@@ -34,7 +41,7 @@ const LoginPage = () => {
             <InputFiled
               inputId="email"
               label="email"
-              type="password"
+              type="text"
               placeholder="email"
               {...register('email', { required: true })}
             />
@@ -46,7 +53,7 @@ const LoginPage = () => {
             <InputFiled
               inputId="password"
               label="password"
-              type="text"
+              type="password"
               placeholder="password"
               {...register('password', { required: true })}
             />

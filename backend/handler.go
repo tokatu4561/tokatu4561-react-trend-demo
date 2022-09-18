@@ -111,7 +111,7 @@ func (app *application) CreateAuthnicateToken(w http.ResponseWriter, r *http.Req
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-			"user_id": 12345678,
+			"user_id": user.ID,
 			"exp": time.Now().Add(time.Hour * 24).Unix(),
 			})
 	
