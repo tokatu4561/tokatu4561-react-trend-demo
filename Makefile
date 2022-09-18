@@ -12,10 +12,17 @@ migrate:
 	@echo "migration db data..."
 	@migrate -database ${DATABASE_URL} -path backend/database/migrations/ up
 
+down-migrate:
+	@echo "migration db data..."
+	@migrate -database ${DATABASE_URL} -path backend/database/migrations/ down
+
 seed:
 	@echo "seeding db data..."
-	@cd backend
 	@go run database/seeder/seed.go
 
 down-all:
 	@docker-compose down --rmi all --volumes --remove-orphans
+
+
+# テーブル作成コマンド
+# migrate create -ext sql -dir db/migrations -seq create_users
