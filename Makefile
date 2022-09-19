@@ -23,8 +23,13 @@ seed:
 down-all:
 	@docker-compose down --rmi all --volumes --remove-orphans
 
+yarn-dev:
+	@cd ./frontend && yarn dev
+
+run-api:
+	@cd ./backend&& go run main.go route.go helpers.go handler.go
+
 
 # テーブル作成コマンド
 # migrate create -ext sql -dir db/migrations -seq create_users
 # apiサーバー
-#  go run main.go route.go helpers.go handler.go
