@@ -80,6 +80,8 @@ func (app *application) GetPaymentIntent(w http.ResponseWriter, r *http.Request)
 	}
 }
 
+
+// TODO: csrf対策する(csrfトークン)
 func (app *application) CreateAuthnicateToken(w http.ResponseWriter, r *http.Request) {
 	var userInput struct {
 		Email string `json:"email"`

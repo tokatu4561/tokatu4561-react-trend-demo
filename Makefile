@@ -26,3 +26,5 @@ down-all:
 
 # テーブル作成コマンド
 # migrate create -ext sql -dir db/migrations -seq create_users
+# apiサーバー
+#  go run main.go route.go helpers.go handler.go
