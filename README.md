@@ -1,7 +1,7 @@
 ## Getting Started
 
-react のトレンド等を試してみる
-個人学習用リポジトリ
+goやreact のトレンド等を試してみる
+個人学習用、boilerplate　リポジトリ
 
 ```bash
 cd /front
