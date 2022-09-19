@@ -14,6 +14,7 @@ var db *sql.DB
 
 type Models struct {
 	User User
+	Task Task
 }
 
 type User struct {
@@ -37,6 +38,7 @@ func New(dbPool *sql.DB) Models {
 
 	return Models{
 		User: User{},
+		Task: Task{},
 	}
 }
 
@@ -105,7 +107,7 @@ func (t *Task) GetById(id int) (*Task, error) {
 	return &task, nil
 }
 
-func (t *Task) Insert(user_id int, task *Task) (*Task, error) {
+func (t *Task) Insert(user_id int, task Task) (*Task, error) {
 	stmt := `insert into tasks (user_id, title, created_at, updated_at)
 		values ($1, $2, $3, $4) returning id`
 
@@ -123,7 +125,7 @@ func (t *Task) Insert(user_id int, task *Task) (*Task, error) {
 	return nil, nil
 }
 
-func (t *Task) Update(task *Task) error {
+func (t *Task) Update(task Task) error {
 	stmt := `
 			update tasks set
 			title = $1

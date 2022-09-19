@@ -15,7 +15,7 @@ import (
 
 type config struct {
 	port string
-	host  string
+	host string
 	// db   struct {
 	// 	dsn string
 	// }
@@ -26,11 +26,11 @@ type config struct {
 }
 
 type application struct {
-	config config
-	infoLog *log.Logger
+	config   config
+	infoLog  *log.Logger
 	errorLog *log.Logger
-	DB *sql.DB
-	Models models.Models
+	DB       *sql.DB
+	Models   models.Models
 }
 
 func main() {
@@ -41,19 +41,19 @@ func main() {
 	cfg.port = os.Getenv("API_PORT")
 	cfg.stripe.key = os.Getenv("PUBLIC_STRIPE_KEY")
 	cfg.stripe.secret = os.Getenv("SECRET_STRIPE_KEY")
-	
+
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	db, err := sql.Open("postgres", "user=postgres password=password host=localhost port=5432 dbname=practice sslmode=disable")
-    if err != nil {
-        errorLog.Fatalln(err)
-    }
-    defer db.Close()
+	if err != nil {
+		errorLog.Fatalln(err)
+	}
+	defer db.Close()
 
 	app := &application{
-		config: cfg,
-		infoLog: infoLog,
+		config:   cfg,
+		infoLog:  infoLog,
 		errorLog: errorLog,
 	}
 

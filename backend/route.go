@@ -22,5 +22,11 @@ func (app *application) routes() http.Handler {
 	mux.Post("/auth/login", app.CreateAuthnicateToken)
 	mux.Get("/auth/user", app.GetAuthUser)
 
+	mux.Get("/tasks", app.GetTasks)
+	mux.Get("/tasks/${id}", app.GetTask)
+	mux.Post("/tasks", app.CreateTask)
+	mux.Put("/tasks/${id}", app.UpdateTask)
+	mux.Delete("/tasks/${id}", app.DeleteTask)
+
 	return mux
 }
