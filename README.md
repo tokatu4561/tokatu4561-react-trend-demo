@@ -4,10 +4,9 @@ goやreact のトレンド等を試してみる
 個人学習用、boilerplate　リポジトリ
 
 ```bash
-cd /front
-npm run dev
-# or
-yarn dev
+make build
+make yarn-dev
+make run-api
 ```
 
 ### 必須ライブラリ
