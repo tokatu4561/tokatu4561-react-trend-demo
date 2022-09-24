@@ -7,14 +7,15 @@ import (
 
 type TaskInputPort interface {
 	AddTask(ctx context.Context, task model.Task) error
+	GetTasks(ctx context.Context) error
 }
 
 type TaskOutputPort interface {
-	OutputUsers([]*model.Task) error
-	OutputError(error) error
+	OutputTasks([]*model.Task)
+	OutputError(error)
 }
 
 type TaskRepository interface {
-	AddTask(ctx context.Context, user *model.Task) ([]*model.Task, error)
+	AddTask(ctx context.Context, task *model.Task) (*model.Task, error)
 	GetTasks(ctx context.Context) ([]*model.Task, error)
 }

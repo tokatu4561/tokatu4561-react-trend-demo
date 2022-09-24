@@ -5,32 +5,42 @@ import (
 	"myapp/domain/model"
 	"myapp/usecases/ports"
 	"net/http"
+	"strconv"
 )
 
 type InputFactory func(ports.TaskOutputPort, ports.TaskRepository) ports.TaskInputPort
 type RepositoryFacgory func(c *sql.DB) ports.TaskRepository
+type OutputFactory func(w http.ResponseWriter) ports.TaskOutputPort
 
 type TaskController struct {
-	outputFactory     func(w http.ResponseWriter) ports.TaskOutputPort
+	outputFactory     OutputFactory
 	inputFactory      InputFactory
 	repositoryFactory RepositoryFacgory
-	clientFactory     *sql.DB
 }
 
-// func (t *TaskController) GetTasks(w http.ResponseWriter, r *http.Request) error {
+func NewTaskController(outputFactory OutputFactory, inputFactory InputFactory, repositoryFactory RepositoryFactory) User {
+	return &TaskController{
+		outputFactory:     outputFactory,
+		inputFactory:      inputFactory,
+		repositoryFactory: repositoryFactory,
+	}
+}
 
-// }
-
-func (t *TaskController) CreateTask(w http.ResponseWriter, r *http.Request) error {
+func (t *TaskController) GetTasks(w http.ResponseWriter, r *http.Request) error {
 	ctx := r.Context()
 
+	t.newInputPort(w).GetTasks()
+}
+
+func (t *TaskController) CreateTask(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	userID, _ := strconv.Atoi(r.Form.Get("user_id"))
 	task := model.Task{
-		Title: "aaa",
+		UserID: userID,
+		Title:  r.Form.Get("title"),
 	}
 
-	return func(w http.ResponseWriter) error {
-		return t.newInputPort(w).AddTask(ctx, task)
-	}
+	t.newInputPort(w).AddTask(ctx, task)
 }
 
 func (t *TaskController) newInputPort(w http.ResponseWriter) ports.TaskInputPort {

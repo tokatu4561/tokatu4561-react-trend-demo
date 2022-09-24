@@ -8,7 +8,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func(app *application) readJson(w http.ResponseWriter, r *http.Request, data interface{}) error {
+func (app *application) readJson(w http.ResponseWriter, r *http.Request, data interface{}) error {
 	maxBytes := 1048576
 
 	r.Body = http.MaxBytesReader(w, r.Body, int64(maxBytes))
@@ -22,7 +22,7 @@ func(app *application) readJson(w http.ResponseWriter, r *http.Request, data int
 	return nil
 }
 
-func(app *application) writeJson(w http.ResponseWriter, status int, data interface{}, headers ...http.Header) error {
+func (app *application) writeJson(w http.ResponseWriter, status int, data interface{}, headers ...http.Header) error {
 	out, err := json.MarshalIndent(data, "", "\t")
 	if err != nil {
 		return err
@@ -43,7 +43,7 @@ func(app *application) writeJson(w http.ResponseWriter, status int, data interfa
 
 func (app *application) badRequest(w http.ResponseWriter, r *http.Request, err error) error {
 	var payload struct {
-		Error bool `json:"error"`
+		Error   bool   `json:"error"`
 		Message string `json:"message"`
 	}
 
