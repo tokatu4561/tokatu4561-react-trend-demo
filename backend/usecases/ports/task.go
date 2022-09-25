@@ -4,7 +4,7 @@ import (
 	"myapp/domain/model"
 )
 
-type TaskRepository interface {
+type TaskRepositoryInterface interface {
 	AddTask(task *model.Task) (*model.Task, error)
 	GetTasks() ([]*model.Task, error)
 }

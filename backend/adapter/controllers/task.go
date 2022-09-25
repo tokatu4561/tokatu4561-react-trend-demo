@@ -9,7 +9,7 @@ import (
 )
 
 type TaskUsecase ports.TaskUseCaseInterface
-type TaskRepository ports.TaskRepository
+type TaskRepository ports.TaskRepositoryInterface
 type TaskController struct {
 	taskUsecase TaskUsecase
 }

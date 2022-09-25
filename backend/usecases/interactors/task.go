@@ -6,7 +6,13 @@ import (
 )
 
 type TaskUsecase struct {
-	Repository ports.TaskRepository
+	Repository ports.TaskRepositoryInterface
+}
+
+func NewTaskUsecase(taskRepo ports.TaskRepositoryInterface) ports.TaskUseCaseInterface {
+	return &TaskUsecase{
+		Repository: taskRepo,
+	}
 }
 
 func (t *TaskUsecase) GetTasks() ([]*model.Task, error) {

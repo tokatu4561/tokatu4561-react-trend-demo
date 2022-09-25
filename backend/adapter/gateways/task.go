@@ -16,9 +16,9 @@ type DatabaseHandler struct {
 	Conn *sql.DB
 }
 
-func NewTaskRepository(dbHandler DatabaseHandler) ports.TaskRepository {
+func NewTaskRepository(db *sql.DB) ports.TaskRepositoryInterface {
 	return &TaskRepositoryGateway{
-		databaseHandler: dbHandler.Conn,
+		databaseHandler: db,
 	}
 }
 
