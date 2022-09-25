@@ -1,26 +1,29 @@
 package interactors
 
 import (
-	"context"
 	"myapp/domain/model"
-	"myapp/models"
 	"myapp/usecases/ports"
 )
 
-type TaskInteractor struct {
-	OutputPort ports.TaskOutputPort
+type TaskUsecase struct {
 	Repository ports.TaskRepository
 }
 
-type TaskUseCaseInterface interface {
-	AddTask(t *models.Task) func(s string) error
-}
-
-func (t *TaskInteractor) AddTask(ctx context.Context, task *model.Task) error {
-	users, err := t.Repository.AddTask(ctx, task)
+func (t *TaskUsecase) GetTasks() ([]*model.Task, error) {
+	tasks, err := t.Repository.GetTasks()
 	if err != nil {
-		return t.OutputPort.OutputError(err)
+		return nil, err
 	}
 
-	return t.OutputPort.OutputUsers(users)
+	return tasks, err
+}
+
+func (t *TaskUsecase) AddTask(task *model.Task) (*model.Task, error) {
+	newTask, err := t.Repository.AddTask(task)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return newTask, nil
 }

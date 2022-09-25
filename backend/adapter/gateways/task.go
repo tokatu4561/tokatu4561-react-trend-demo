@@ -1,7 +1,6 @@
 package gateways
 
 import (
-	"context"
 	"database/sql"
 	"log"
 	"myapp/domain/model"
@@ -9,19 +8,22 @@ import (
 	"time"
 )
 
-type TaskGateway struct {
-	clientFactory *sql.DB
+type TaskRepositoryGateway struct {
+	databaseHandler *sql.DB
 }
 
-func NewTaskRepository() ports.TaskRepository {
-	db, _ := sql.Open("postgres", "user=postgres password=password host=localhost port=5432 dbname=practice sslmode=disable")
-	return &TaskGateway{
-		clientFactory: db,
+type DatabaseHandler struct {
+	Conn *sql.DB
+}
+
+func NewTaskRepository(dbHandler DatabaseHandler) ports.TaskRepository {
+	return &TaskRepositoryGateway{
+		databaseHandler: dbHandler.Conn,
 	}
 }
 
-func (t *TaskGateway) AddTask(ctx context.Context, task *model.Task) (*model.Task, error) {
-	newTask, err := Insert(t.clientFactory, task)
+func (t *TaskRepositoryGateway) AddTask(task *model.Task) (*model.Task, error) {
+	newTask, err := Insert(t.databaseHandler, task)
 	if err != nil {
 		return nil, err
 	}
@@ -29,8 +31,8 @@ func (t *TaskGateway) AddTask(ctx context.Context, task *model.Task) (*model.Tas
 	return newTask, nil
 }
 
-func (t *TaskGateway) GetTasks(ctx context.Context) ([]*model.Task, error) {
-	tasks, err := GetAll(t.clientFactory)
+func (t *TaskRepositoryGateway) GetTasks() ([]*model.Task, error) {
+	tasks, err := GetAll(t.databaseHandler)
 
 	if err != nil {
 		return nil, err
